@@ -27,7 +27,18 @@ export function CartProvider({ children } : { children: React.ReactNode }) {
     }, [cart])
 
     function addToCart(item: CartItem) {
-        setCart((prev) => [...prev, item])
+        setCart((prev) => {
+            const exists = prev.find((i) => i.id === item.id)
+
+            if (exists) {
+                return prev.map((i) => 
+                i.id === item.id
+                    ? { ...i, quantity: i.quantity + 1}
+                    : i
+            )
+            }
+            return [...prev, item]
+        })
     }
 
     return (
