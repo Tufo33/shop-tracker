@@ -1,6 +1,6 @@
-import Image from "next/image";
 import pool from "@/lib/db";
 import { Product } from "@/types/product";
+import AddToCartButton from "@/components/AddToCartButton";
 
 export default async function Home() {
 
@@ -16,7 +16,7 @@ export default async function Home() {
           <h2 className="text-xl font-semibold">{product.name}</h2>
           <p className="text-gray-500 mt-2">{product.description}</p>
           <p className="text-green-600 font-bold mt-4">{product.price} €</p>
-          <button className="mt-4 w-full bg-black text-white py-2 rounded-lg">In den Warenkorb</button>
+          <AddToCartButton product={product}/>
         </div>
       ))}
       </div>
