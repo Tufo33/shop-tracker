@@ -6,20 +6,19 @@ import { CartItem } from "@/types/cartItem";
 interface CartContextType {
     cart: CartItem[]
     addToCart: (item: CartItem) => void
+    clearCart: () => void
 }
 
 const CartContext = createContext<CartContextType | null>(null)
 
 export function CartProvider({ children } : { children: React.ReactNode }) {
     const [cart, setCart] = useState<CartItem[]>([])
-    const [mounted, setMounted] = useState(false)
     
     useEffect(() => {
         const saved = localStorage.getItem('cart')
         if (saved) {
             setCart(JSON.parse(saved))
         }
-        setMounted(true)
     }, [])
 
     useEffect(() => {
@@ -41,8 +40,13 @@ export function CartProvider({ children } : { children: React.ReactNode }) {
         })
     }
 
+    function clearCart() {
+        setCart([])
+        localStorage.removeItem("cart")
+    }
+
     return (
-        <CartContext.Provider value={{ cart, addToCart }}>
+        <CartContext.Provider value={{ cart, addToCart, clearCart }}>
             {children}
         </CartContext.Provider>
     )
